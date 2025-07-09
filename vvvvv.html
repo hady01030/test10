@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hospital Login</title>
+    <link rel="stylesheet" href="assets/css/bootstrap.css">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg bg-dark border-bottom border-body" data-bs-theme="dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">My Shop</a>
+            <form class="d-flex" role="button">
+                <button type="button" class="btn btn-white" style="background-color: aliceblue; color: #000;margin: 10px;" onclick="window.location.href='day6.html'">Services</button>
+                <button type="button" class="btn btn-white" style="background-color: aliceblue; color: #000;margin: 10px;">Cart</button>
+                <button type="button" class="btn btn-white" style="background-color: aliceblue; color: #000;margin: 10px;">Account</button>
+                <button type="button" class="btn btn-white" style="background-color: rgba(255, 0, 0, 0.935); color: #ffffff;margin: 10px;">Login</button>
+            </form>
+        </div>
+    </nav>
+
+    <div class="container mt-5" style="max-width: 400px;">
+        <form id="loginForm">
+            <h4>Login as:</h4>
+            <select class="form-select" id="select" style="margin-top: 20px;">
+                <option>Doctor</option>
+                <option>patient</option>
+            </select>
+            <input type="text" class="form-control" id="useremail" style="margin-top: 20px;" placeholder="username">
+            <input type="password" class="form-control" id="password" style="margin-top: 20px;" placeholder="password">
+            <div id="error" style="color: red; margin-top: 10px;"></div>
+            <button type="button" class="btn btn-secondary" style="margin: 20px; background-color: rgb(34, 48, 255);" id="sendBtn">send</button>
+        </form>
+    </div>
+
+    <script>
+    document.getElementById("sendBtn").onclick = async function() {
+        const select = document.getElementById("select").value.toLowerCase();
+        const username = document.getElementById("useremail").value.trim();
+        const password = document.getElementById("password").value.trim();
+        const errorDiv = document.getElementById("error");
+        errorDiv.textContent = "";
+
+        if (!username || !password) {
+            errorDiv.textContent = "Please enter username and password.";
+            return;
+        }
+
+        try {
+            const response = await fetch("https://abubakr3800.github.io/api-data/hospital.json");
+            const data = await response.json();
+console.log(data);
+
+            if (select === "doctor") {
+                const doctor = data.doctors.find(doc => doc.username === username && doc.password === password);
+                if (doctor) {
+                    window.location.href = "doctor-home.html";
+                    return;
+                } else {
+                    errorDiv.textContent = "Invalid doctor credentials.";
+                }
+            } else if (select === "patient") {
+                const patient = data.users.find(pat => pat.username === username && pat.password === password);
+                if (patient) {
+                    window.location.href = "patient-home.html";
+                    return;
+                } else {
+                    errorDiv.textContent = "Invalid patient credentials.";
+                }
+            }
+        } catch (e) {
+            errorDiv.textContent = "Error connecting to server.";
+        }
+    };
+
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+Swal.fire({
+  title: "Good job!",
+  text: "You clicked the button!",
+  icon: "success"
+})
+
+    </script>
+<style>
+    body {
+        transform: 
+    }
+</style>
+</body>
+</html>

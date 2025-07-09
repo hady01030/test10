@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="style6.css">
+</head>
+<body>
+   <div id="project" style="display:flex;justify-content: center; gap:20px ;flex-wrap: wrap;" >
+        
+    </div>
+    <script>
+        fetch ("https://abubakr3800.github.io/api-data/hospital.json")
+      .then(response => response.json())
+      .then(products=>{
+for (let i = 0; i < products.length; i++) {
+    const element = products[i];
+var h =document.createElement("div")   ;
+h.classList.add("class");
+h.innerHTML=`
+<h3>${element.title}<h3>
+<h4>${element.price}<h4>
+    <img src="${element.image}">
+`;
+document.getElementById("project").appendChild(h)
+
+}
+      })
+    
+        
+    </script>
+</body>
+</html>
